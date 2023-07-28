@@ -1,0 +1,57 @@
+clc
+clear
+n = 3001
+T = [20,10000,2500,5000,7000]
+e = 1.6*10^(-19)
+kb = 1.38*10^(-23)/e
+e_u = linspace(-5,5,n)
+e_uprime = linspace(0,5,n)
+for i=1:length(T)
+for j = 1:n
+BE(i,j)=1/(exp(e_uprime(j)/(kb*T(i)))-1)
+MB(i,j)=1/(exp(e_u(j)/(kb*T(i))))
+FD(i,j)=1/(exp(e_u(j)/(kb*T(i)))+1)
+end
+end
+show_window(0)
+plot(e_u/(kb*T(2)),MB(2,:),'or')
+at=gca()
+at.data_bounds=[-5,0;5,2.5]
+plot(e_u/(kb*T(2)),FD(2,:),'-*-k')
+plot(e_uprime/(kb*T(2)),BE(2,:),'+-m')
+at=gca()
+at.data_bounds=[-5,0;5,2.5]
+legend(['Maxwell-Boltzmann','Fermi Dirac','Bose Einstein'])
+title("Stastical Distribution of MB, FD and BE",'FontSize',4)
+xlabel(" (E-mu) ",'FontSize',3,'color','brown')
+ylabel(" Stastical Functions ",'FontSize',3,'color','brown')
+xgrid()
+//-----Variation in Temperature-------
+show_window(1)
+plot(e_u,MB(:,:),'linewidth',2);
+at=gca();
+at.data_bounds=[0,-0.2;4.5,1];
+title("Maxwell Boltzman Distribution for different Temperature",'FontSize',4)
+
+xlabel(" Energy(eV) ",'FontSize',3,'color','brown')
+ylabel(" Function_MB ",'FontSize',3,'color','brown')
+legend([string(T(:))+'K'])
+xgrid()
+show_window(2)
+plot(e_uprime,BE(:,:),'linewidth',2);
+at=gca();
+at.data_bounds=[0,-0.2;3,4.5];
+title("Bose Einstein Distribution for different Temperature",'FontSize',4)
+xlabel(" Energy(eV) ",'FontSize',3,'color','brown')
+ylabel(" Function_BE ",'FontSize',3,'color','brown')
+legend([string(T(:))+'K'])
+xgrid()
+show_window(3)
+plot(e_u,FD(:,:),'linewidth',2);
+at=gca();
+at.data_bounds=[-3,-0.2;3,1.2];
+title("Fermi Dirac Distribution for different Temperature",'FontSize',4)
+xlabel(" Energy(eV) ",'FontSize',3,'color','brown')
+ylabel(" Function_FD ",'FontSize',3,'color','brown')
+legend([string(T(:))+'K'])
+xgrid()
